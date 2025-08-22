@@ -26,18 +26,19 @@ The generated file is not scanned for imports by `bazel run @rules_go//go -- mod
   1. ```shell
      bazel build //:generate_api_handler
      ```
-       
+
   2. Inspect the output in `bazel-bin/api.go`
 
   3. Create an import-only file:
      ```go
      package api
-     
+
      import (
        _ "github.com/gin/gin-gonic"
        ... etc
      )
      ```
-     
+
   4. Add the import-only source file to your BUILD rule and run `mod tidy` and `gazelle`.
-     This is tracked in https://github.com/bazel-contrib/bazel-gazelle/issues/1801 
+
+The bug this workaround addresses is tracked in https://github.com/bazel-contrib/bazel-gazelle/issues/1801
