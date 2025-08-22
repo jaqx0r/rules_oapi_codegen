@@ -1,0 +1,23 @@
+openapi: "3.0.0"
+info:
+  version: "1.0"
+  title: Example API for test.
+paths:
+  /hi:
+    get:
+      responses:
+        '200':
+          description: "hi"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/hi'
+components:
+  schemas:
+    "hi":
+      type: object
+      required:
+        - hi
+      properties:
+        hi:
+          type: string

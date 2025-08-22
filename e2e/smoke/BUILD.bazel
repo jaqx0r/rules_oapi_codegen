@@ -1,8 +1,15 @@
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@rules_oapi_codegen//:defs.bzl", "oapi_codegen")
 
-filegroup(name = "empty")
+oapi_codegen(
+    name = "generate_service_handler",
+    src = "api.yaml",
+    out = "api.go",
+    generate = "gin",
+    package = "api",
+)
 
 build_test(
     name = "smoke_test",
-    targets = [":empty"],
+    targets = [":generate_service_handler"],
 )

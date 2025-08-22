@@ -26,7 +26,7 @@ def _oapi_codegen_impl(ctx):
     # not accept a relative path.
     go_ctx = go_context(ctx)
 
-    config_file = ctx.actions.declare_file(ctx.label_name + "_config.yaml")
+    config_file = ctx.actions.declare_file(ctx.label.name + "_config.yaml")
     ctx.actions.write(
         output = config_file,
         content = _OAPI_CONFIG_TEMPLATE.format(
@@ -48,7 +48,7 @@ def _oapi_codegen_impl(ctx):
 
     go_ctx.actions.run(
         mnemonic = "OpenAPIGen",
-        executable = ctx.executable._openapi_codegen_wrapper,
+        executable = ctx.executable._oapi_codegen_wrapper,
         arguments = [args],
         tools = [ctx.executable._oapi_codegen_tool],
         inputs = inputs,
@@ -66,11 +66,9 @@ oapi_codegen = rule(
         "src": attr.label(
             allow_single_file = True,
             doc = "The source YAML containing the OpenAPI specification.",
-            required = True,
         ),
         "out": attr.output(
             doc = "The filename to write the output service handler to.",
-            required = True,
         ),
         "package": attr.string(doc = "The name of the package that the service handler code is a part of."),
         "strict": attr.bool(
@@ -83,7 +81,6 @@ oapi_codegen = rule(
         ),
         "generate": attr.string(
             doc = "Specify the server framework to generate the service handler for.",
-            required = True,
         ),
         "_oapi_codegen_tool": attr.label(
             default = _OAPI_CODEGEN_TOOL,
@@ -92,7 +89,7 @@ oapi_codegen = rule(
             cfg = "exec",
         ),
         "_oapi_codegen_wrapper": attr.label(
-            default = "//tools/oapi_codegen_wrapper.sh",
+            default = "//tools:oapi_codegen_wrapper.sh",
             allow_single_file = True,
             executable = True,
             cfg = "exec",
