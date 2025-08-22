@@ -1,0 +1,13 @@
+# and put the release notes into the commit message for the tag.
+name: release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    uses: bazel-contrib/.github/.github/workflows/release_ruleset.yaml@v7
+    with:
+      release_files: rules_dejagnu-*.tar.gz
