@@ -23,9 +23,9 @@ oapi_codegen(
 
 The generated file is not scanned for imports by `bazel run @rules_go//go -- mod tidy` nor `bazel run //:gazelle` so you will have to manually copy the imports from your generated file once:
 
-    1. ```shell
-       bazel build //:generate_api_handler
-       ```
+   1. ```shell
+      bazel build //:generate_api_handler
+      ```
        
    2. Inspect the output in `bazel-bin/api.go`
 
