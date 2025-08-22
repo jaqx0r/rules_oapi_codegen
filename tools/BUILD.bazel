@@ -1,0 +1,1 @@
+exports_files(["oapi_codegen_wrapper.sh"])
