@@ -25,12 +25,11 @@ jobs:
       folders: |
         [
           ".",
-          "testsuite"
+          "e2e/smoke"
         ]
       exclude: |
         [
           {"folder": ".", "bzlmodEnabled": false},
-          {"folder": "testsuite", "bzlmodEnabled": false}
         ]
       exclude_windows: true
 
