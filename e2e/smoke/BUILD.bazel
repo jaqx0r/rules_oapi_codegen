@@ -11,5 +11,19 @@ oapi_codegen(
 
 build_test(
     name = "smoke_test",
-    targets = [":generate_service_handler"],
+    targets = [
+        ":generate_service_handler",
+        ":gen_with_options",
+    ],
+)
+
+oapi_codegen(
+    name = "gen_with_options",
+    src = "api.yaml",
+    out = "api2.go",
+    generate = "gin",
+    output_options = {
+        "prefer-skip-optional-pointer": "true",
+    },
+    package = "api2",
 )

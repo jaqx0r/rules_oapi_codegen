@@ -12,6 +12,7 @@ generate:
   strict-server: {strict}
   models: {models}
 output: {output}
+{output_options}
 """
 
 def _oapi_codegen_impl(ctx):
@@ -26,6 +27,12 @@ def _oapi_codegen_impl(ctx):
     # not accept a relative path.
     go_ctx = go_context(ctx)
 
+    output_options = ""
+    if ctx.attr.output_options:
+        output_options += "output-options:\n"
+        for k, v in ctx.attr.output_options.items():
+            output_options += "  {}: {}\n".format(k, v)
+
     config_file = ctx.actions.declare_file(ctx.label.name + "_config.yaml")
     ctx.actions.write(
         output = config_file,
@@ -35,6 +42,7 @@ def _oapi_codegen_impl(ctx):
             output = ctx.outputs.out.path,
             models = ctx.attr.models,
             generate = ctx.attr.generate,
+            output_options = output_options,
         ),
     )
 
@@ -78,6 +86,10 @@ oapi_codegen = rule(
         "models": attr.bool(
             default = True,
             doc = "Generate models for schema components.",
+        ),
+        "output_options": attr.string_dict(
+            doc = "Provide oapi-codegen output-options.",
+            default = {},
         ),
         "generate": attr.string(
             doc = "Specify the server framework to generate the service handler for.",
